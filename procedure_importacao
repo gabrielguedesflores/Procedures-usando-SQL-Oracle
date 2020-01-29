@@ -44,7 +44,7 @@ SELECT valor_lancado
 , cod_lcto_contabil
 , cod_lcto_movimento
 , COD_SETOR
-FROM lcto_contabil, BENS_SW
+FROM tab_contabil, BENS_SW
 WHERE cod_reduzido_deb = 2323
 AND Trunc(data_lcto, 'month') = Trunc(p_data, 'MONTH')
 AND cod_lote = p_lote
@@ -74,7 +74,7 @@ BEGIN
      loop
         fetch C_DADOS_CONTABIL_TPN into V_DADOS_CONTABIL_TPN;
         exit when C_DADOS_CONTABIL_TPN%notfound;
-        INSERT INTO lcto_contabil (cd_lcto_contabil
+        INSERT INTO tab_contabil (cd_tab_contabil
                              , data_lcto
                              , cod_reduzido_deb
                              , cod_reduzido_cred
@@ -87,7 +87,7 @@ BEGIN
                              , cod_moeda
                              , cod_multi_empresa
                              , cod_multi_empresa_origem)
-                 VALUES ( sequence_lcto_contabil.nextval
+                 VALUES ( sequence_tab_contabil.nextval
                              , V_DADOS_CONTABIL_TPN.data_lancamento
                              , V_DADOS_CONTABIL_TPN.cod_reduzido
                              , '2219'
@@ -95,7 +95,7 @@ BEGIN
                              , '96'
                              , 'Tombamento do Bem Patrimonial de código: '||V_DADOS_CONTABIL_TPN.cod_bem
                              , v_lote
-                             , sequence_lcto_movimento.nextval
+                             , sequence_lancamento_movimento.nextval
                              , V_DADOS_CONTABIL_TPN.valor_compra2
                              , 'R$'
                              , '2'
@@ -117,7 +117,7 @@ BEGIN
      loop
         fetch C_DADOS_CONTABIL_TPS into V_DADOS_CONTABIL_TPS;
         exit when C_DADOS_CONTABIL_TPS%notfound;
-        INSERT INTO lcto_contabil (cod_lcto_contabil
+        INSERT INTO tab_contabil (cod_tab_contabil
                              , data_lcto
                              , cod_reduzido_deb
                              , cod_reduzido_cred
@@ -130,7 +130,7 @@ BEGIN
                              , cod_moeda
                              , cod_multi_empresa
                              , cod_multi_empresa_origem)
-                 VALUES ( sequence_lcto_contabil.nextval
+                 VALUES ( sequence_tab_contabil.nextval
                              , V_DADOS_CONTABIL_TPS.data_lancamento
                              , '2323'
                              , '2219'
@@ -138,7 +138,7 @@ BEGIN
                              , '96'
                              , 'Tombamento do Bem Patrimonial de código: '||V_DADOS_CONTABIL_TPS.cod_bem
                              , v_lote
-                             , sequence_lcto_movimento.nextval
+                             , sequence_lancamento_movimento.nextval
                              , V_DADOS_CONTABIL_TPS.valor_compra2
                              , 'R$'
                              , '2'
@@ -158,19 +158,19 @@ BEGIN
      loop
         fetch C_DADOS_SETOR into V_DADOS_SETOR;
         exit when C_DADOS_SETOR%notfound;
-        INSERT INTO lcto_setor (cod_lcto_setor
-                                      , valor_lcto_setor
-                                      , cod_lcto_contabil
+        INSERT INTO lancamento_setor (cod_lancamento_setor
+                                      , valor_lancamento_setor
+                                      , cod_tab_contabil
                                       , cod_setor_deb
-                                      , cod_lcto_movimento
-                                      , valor_moeda_lcto_setor
+                                      , cod_lancamento_movimento
+                                      , valor_moeda_lancamento_setor
                                       , cod_moeda)
 
-                                       values (sequence_lcto_setor.NEXTVAL
+                                       values (sequence_lancamento_setor.NEXTVAL
                                       , V_DADOS_SETOR.valor_lancado
-                                      , V_DADOS_SETOR.cod_lcto_contabil
+                                      , V_DADOS_SETOR.cod_tab_contabil
                                       , V_DADOS_SETOR.cod_setor
-                                      , V_DADOS_SETOR.cod_lcto_movimento
+                                      , V_DADOS_SETOR.cod_lancamento_movimento
                                       , V_DADOS_SETOR.valor_lancado
                                       , 'R$');
          COMMIT  ;
