@@ -1,6 +1,5 @@
-PROMPT CREATE OR REPLACE PROCEDURE prc_import_bens_sw
 CREATE OR REPLACE PROCEDURE prc_importacao_bens (p_data DATE
-                                               ,p_lote NUMBER) AS
+                                                ,p_lote NUMBER) AS
 
 ------- CURSOR CONTABIL TP=N -------------
 
